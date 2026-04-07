@@ -223,12 +223,48 @@
   .reminder-count{position:absolute;top:-4px;right:-4px;background:#e05a40;color:white;border-radius:50%;width:16px;height:16px;font-size:.6rem;display:flex;align-items:center;justify-content:center;font-weight:bold}
   .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:white;padding:.65rem 1.4rem;border-radius:50px;font-size:.82rem;z-index:200;transition:transform .35s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
   .toast.show{transform:translateX(-50%) translateY(0)}
+  .pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--rose);background:transparent;transition:background .2s}
+  .pin-dot.filled{background:var(--rose)}
+  .pin-btn{padding:1.1rem;border-radius:14px;border:1.5px solid rgba(196,168,130,.3);background:white;font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;cursor:pointer;color:var(--ink);transition:all .15s;box-shadow:0 1px 8px rgba(44,36,32,.06)}
+  .pin-btn:active{background:var(--blush);transform:scale(.95)}
+  .pin-del{font-family:'DM Sans',sans-serif;font-size:1.1rem;color:var(--ink-soft)}
 </style>
 </head>
 <body>
 
 <!-- LOADING -->
-<div id="loading"><div class="loading-heart">💗</div><div class="loading-text">Verbindung wird aufgebaut…</div></div>
+
+<!-- PIN SCREEN -->
+<div id="pin-screen" style="position:fixed;inset:0;z-index:2000;background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;gap:1.2rem">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;text-align:center;line-height:1">Bini <span style="color:var(--rose);font-style:italic">&#9825;</span> Wolfi</div>
+  <div style="font-size:.8rem;color:var(--ink-soft);letter-spacing:.15em;text-transform:uppercase">Unsere gemeinsame Verbindung</div>
+  <div style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink-soft);font-size:1rem;margin-top:.5rem">Bitte PIN eingeben</div>
+  <div style="display:flex;gap:.75rem;margin:.5rem 0">
+    <div class="pin-dot" id="dot-0"></div>
+    <div class="pin-dot" id="dot-1"></div>
+    <div class="pin-dot" id="dot-2"></div>
+    <div class="pin-dot" id="dot-3"></div>
+    <div class="pin-dot" id="dot-4"></div>
+    <div class="pin-dot" id="dot-5"></div>
+  </div>
+  <div id="pin-error" style="font-size:.82rem;color:#c84030;min-height:1.1rem;font-style:italic"></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;width:100%;max-width:280px">
+    <button class="pin-btn" onclick="pinPress('1')">1</button>
+    <button class="pin-btn" onclick="pinPress('2')">2</button>
+    <button class="pin-btn" onclick="pinPress('3')">3</button>
+    <button class="pin-btn" onclick="pinPress('4')">4</button>
+    <button class="pin-btn" onclick="pinPress('5')">5</button>
+    <button class="pin-btn" onclick="pinPress('6')">6</button>
+    <button class="pin-btn" onclick="pinPress('7')">7</button>
+    <button class="pin-btn" onclick="pinPress('8')">8</button>
+    <button class="pin-btn" onclick="pinPress('9')">9</button>
+    <div></div>
+    <button class="pin-btn" onclick="pinPress('0')">0</button>
+    <button class="pin-btn pin-del" onclick="pinDelete()">&#9003;</button>
+  </div>
+</div>
+
+<div id="loading" style="display:none"><div class="loading-heart">💗</div><div class="loading-text">Verbindung wird aufgebaut…</div></div>
 
 <!-- LOGIN -->
 <div id="login-screen">
@@ -885,7 +921,6 @@ window.checkReminders=function(){
 // ─── BOOT ───
 $('task-due').value=new Date().toISOString().split('T')[0];
 updateRecurForm();
-initFB();
 </script>
 
 <!--
